@@ -18,6 +18,10 @@ import rx.schedulers.Schedulers;
 
 public class NetworkWrapper {
 
+	private static void Tag(String tag) {
+		Log.e(NetworkWrapper.class.getSimpleName(), tag);
+	}
+
 	public static void getToken(String name, String pwd) {
 		LoginService loginService = ServiceFactory.createServiceFrom(LoginService.class, LoginService.ENDPOINT);
 
@@ -42,8 +46,26 @@ public class NetworkWrapper {
 				});
 	}
 
+	public static void getDataList(){
+		LoginService loginService = ServiceFactory.createServiceFrom(LoginService.class, LoginService.ENDPOINT);
+		loginService.getUserList("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoia2VuIiwiaWF0IjoxNDk5Nzc4NjI5LCJleHAiOjE0OTk3ODIyMjl9.evTgmisq3FrII0a3LB9XG7uxetoKNXBX-eacb2VsMcE")
+				.subscribeOn(Schedulers.newThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Observer<ServiceFactory.Datas>() {
+					@Override
+					public void onCompleted() {
+						Tag("onCompleted");
+					}
 
-	private static void Tag(String tag) {
-		Log.e(NetworkWrapper.class.getSimpleName(), tag);
+					@Override
+					public void onError(Throwable e) {
+						Tag("onError");
+					}
+
+					@Override
+					public void onNext(ServiceFactory.Datas datas) {
+						Tag("onNext");
+					}
+				});
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.chiachen.loginpractice;
 
+import java.util.List;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -29,7 +30,7 @@ public class ServiceFactory {
 		}
 	}
 
-	static class TokenBean{
+	static class TokenBean {
 		Token token;
 
 		 static class Token {
@@ -37,6 +38,14 @@ public class ServiceFactory {
 			private Integer iat;
 			private Integer exp;
 			private String token;
+		}
+	}
+
+	static class Datas {
+		private List<Data> data;
+		private class Data {
+			private Integer id;
+			private String name;
 		}
 	}
 }

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 
 			case R.id.info_list: {
+				NetworkWrapper.getDataList();
 				Log.e(MainActivity.class.getSimpleName(), "info_list");
 				break;
 			}
