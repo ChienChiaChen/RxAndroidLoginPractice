@@ -11,7 +11,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-	@BindViews({R.id.button, R.id.button1})
+	@BindViews({R.id.info_list, R.id.info_token})
 	List<View> mBtn;
 
 	@Override
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.info_token: {
+				NetworkWrapper.getToken("ken","hello");
 				Log.e(MainActivity.class.getSimpleName(), "info_token");
 				break;
 			}
