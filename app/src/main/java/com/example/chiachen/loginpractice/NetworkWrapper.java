@@ -6,6 +6,10 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -17,18 +21,25 @@ public class NetworkWrapper {
 	public static void getToken(String name, String pwd) {
 		LoginService loginService = ServiceFactory.createServiceFrom(LoginService.class, LoginService.ENDPOINT);
 
-		Call<ServiceFactory.TokenBean> call = loginService.getToken(new ServiceFactory.Authorization(name, pwd));
-		call.enqueue(new Callback<ServiceFactory.TokenBean>() {
-			@Override
-			public void onResponse(Response<ServiceFactory.TokenBean> response, Retrofit retrofit) {
-				Tag("onResponse");
-			}
+		loginService.getToken(new ServiceFactory.Authorization(name, pwd))
+				.subscribeOn(Schedulers.newThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Observer<ServiceFactory.TokenBean>() {
+					@Override
+					public void onCompleted() {
+						Tag("onCompleted");
+					}
 
-			@Override
-			public void onFailure(Throwable t) {
-				Tag("onFailure");
-			}
-		});
+					@Override
+					public void onError(Throwable e) {
+						Tag("onError");
+					}
+
+					@Override
+					public void onNext(ServiceFactory.TokenBean tokenBean) {
+						Tag("onNext");
+					}
+				});
 	}
 
 
