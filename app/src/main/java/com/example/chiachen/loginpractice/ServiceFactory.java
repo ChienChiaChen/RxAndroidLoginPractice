@@ -38,7 +38,11 @@ public class ServiceFactory {
 			private Integer iat;
 			private Integer exp;
 			private String token;
-		}
+
+			 public String getToken() {
+				 return token;
+			 }
+		 }
 	}
 
 	static class Datas {

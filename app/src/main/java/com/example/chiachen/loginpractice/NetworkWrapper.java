@@ -2,11 +2,7 @@ package com.example.chiachen.loginpractice;
 
 import android.util.Log;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
-import rx.Observable;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,5 +63,19 @@ public class NetworkWrapper {
 						Tag("onNext");
 					}
 				});
+	}
+
+	public static void getDatasList(){
+		LoginService loginService = ServiceFactory.createServiceFrom(LoginService.class, LoginService.ENDPOINT);
+		loginService.getToken(new ServiceFactory.Authorization("ken","hello"))
+				.subscribeOn(Schedulers.newThread())
+				.flatMap(tokenBean -> loginService.getUserList(tokenBean.token.getToken()))
+				.subscribe(
+						datas -> {
+							Tag("Get");
+						},
+						throwable -> {
+							Tag(throwable.getMessage());
+						});
 	}
 }
